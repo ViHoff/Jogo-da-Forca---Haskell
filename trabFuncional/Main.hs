@@ -1,5 +1,5 @@
 import JogoDaForca --importa módulo
-import System.IO (readFile) --ler arquivo
+import System.IO (readFile, hSetBuffering, stdout, BufferMode(NoBuffering)) --ler arquivo
 import System.Random (randomRIO) --numeros aleatorios
 import Data.Char (toUpper) --manipulacao de caracteres para transformar em maiusculo o palpite
 
@@ -86,13 +86,16 @@ runGame = do
     let palavraMaiuscula = map toUpper palavraSorteada
     let estadoInicialDoJogo = estadoInicial palavraMaiuscula 
 
+    --roda o loop
     gameLoop estadoInicialDoJogo
 
     putStr "Você deseja se desafiar e jogar novamente??? xD (s/n): " 
-    linha <- getLine
+    hSetBuffering stdout NoBuffering
+    resposta <- getChar
+    putStrLn ""
 
     --Poe em maiusculo a resposta do usuario
-    let resposta = if null linha then ' ' else toUpper (head linha)
+    let resposta = toUpper resposta
 
      --verifica se o usuario quer jogar novamente
 

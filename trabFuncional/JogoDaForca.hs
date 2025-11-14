@@ -193,13 +193,12 @@ checaVitoria es = all (\c -> c `elem` (letrasAdvinhadas es)) (palavra es)
 -- verifica se o jogador perdeu
 checaDerrota :: Estado -> Bool
 checaDerrota es =
-    if (erros es >= 6) then
-        True
-    else
-        False
+    let palavraMostrada = printaPalavra es
+    in not ('_' `elem` palavraMostrada)
 
 -- verifica se estamos na letra final
 letraFInal :: Estado -> Bool
 letraFInal es =
-    let revealed = filter (\c -> c `elem` (letrasAdvinhadas es)) (palavra es)
-    in length revealed == (length (palavra es) - 1)
+    let palavraMostrada = printaPalavra es
+        underlines = length (filter (== '_') palavraMostrada)
+    in underlines == 1 -- e a letra final se tiver 1 underline
